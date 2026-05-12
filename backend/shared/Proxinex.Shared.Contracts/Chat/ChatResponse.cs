@@ -18,4 +18,11 @@ public class ChatResponse
 
     public Guid TraceId { get; set; }
     public long LatencyMs { get; set; }
+    public int PromptTokens { get; set; }
+
+    public int CompletionTokens { get; set; }
+
+    public int TotalTokens { get; set; }
+
+    public decimal EstimatedCost { get; set; }
 }

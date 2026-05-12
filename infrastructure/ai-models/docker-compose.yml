@@ -1,0 +1,7 @@
+services:
+
+  ollama:
+    image: ollama/ollama
+    container_name: proxinex-ollama
+    ports:
+      - "11434:11434"
