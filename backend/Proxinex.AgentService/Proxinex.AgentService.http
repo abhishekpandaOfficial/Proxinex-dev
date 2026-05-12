@@ -1,0 +1,6 @@
+@Proxinex.AgentService_HostAddress = http://localhost:5238
+
+GET {{Proxinex.AgentService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,45 @@
+# Build
+bin/
+obj/
+
+# User-specific
+*.user
+*.suo
+
+# VS Code
+.vscode/
+
+# Rider
+.idea/
+
+# Logs
+logs/
+*.log
+
+# macOS
+.DS_Store
+
+# Environment
+.env
+appsettings.Development.json
+
+# Docker
+docker-data/
+
+# Redis dump
+dump.rdb
+
+# Ollama
+.ollama/
+
+# Node
+node_modules/
+
+# Terraform
+.terraform/
+
+# Coverage
+coverage/
+
+# Secrets
+secrets.json

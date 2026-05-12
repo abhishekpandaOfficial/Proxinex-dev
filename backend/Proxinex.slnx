@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/shared/">
+    <Project Path="shared/Proxinex.Shared.Contracts/Proxinex.Shared.Contracts.csproj" />
+    <Project Path="shared/Proxinex.Shared.Infrastructure/Proxinex.Shared.Infrastructure.csproj" />
+    <Project Path="shared/Proxinex.Shared.SemanticKernel/Proxinex.Shared.SemanticKernel.csproj" />
+  </Folder>
+  <Project Path="Proxinex.AgentService/Proxinex.AgentService.csproj" />
+  <Project Path="Proxinex.ChatService/Proxinex.ChatService.csproj" />
+  <Project Path="Proxinex.gateway/Proxinex.gateway.csproj" />
+  <Project Path="Proxinex.LlmOpsService/Proxinex.LlmOpsService.csproj" />
+  <Project Path="Proxinex.MemoryService/Proxinex.MemoryService.csproj" />
+  <Project Path="Proxinex.RagService/Proxinex.RagService.csproj" />
+</Solution>

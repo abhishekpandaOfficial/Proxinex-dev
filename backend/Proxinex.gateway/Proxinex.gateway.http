@@ -1,0 +1,6 @@
+@Proxinex.gateway_HostAddress = http://localhost:5031
+
+GET {{Proxinex.gateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

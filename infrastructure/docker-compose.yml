@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: proxinex-postgres
+    environment:
+      POSTGRES_USER: proxinex
+      POSTGRES_PASSWORD: proxinex
+      POSTGRES_DB: proxinex
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    container_name: proxinex-redis
+    ports:
+      - "6379:6379"
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: proxinex-qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: proxinex-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: hello@abhishekpanda.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"

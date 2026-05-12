@@ -1,0 +1,6 @@
+@Proxinex.MemoryService_HostAddress = http://localhost:5144
+
+GET {{Proxinex.MemoryService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
