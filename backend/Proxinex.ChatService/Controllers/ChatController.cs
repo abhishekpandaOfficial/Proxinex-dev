@@ -9,7 +9,7 @@ namespace Proxinex.ChatService.Controllers;
 public class ChatController : ControllerBase
 {
     private readonly IChatOrchestrationService _chatService;
-
+    
     public ChatController(
         IChatOrchestrationService chatService)
     {

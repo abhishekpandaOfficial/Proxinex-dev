@@ -13,4 +13,6 @@ public class ProxinexDbContext : DbContext
 
     public DbSet<ChatHistory> ChatHistories =>
         Set<ChatHistory>();
+    public DbSet<DocumentChunk> DocumentChunks =>
+        Set<DocumentChunk>();
 }

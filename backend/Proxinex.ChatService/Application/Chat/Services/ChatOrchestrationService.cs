@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
 using Proxinex.ChatService.Application.Chat.Interfaces;
+using Proxinex.ChatService.Infrastructure.Rag;
 using Proxinex.Shared.Contracts.Chat;
 using Proxinex.Shared.Infrastructure.Memory.Interfaces;
 using Proxinex.Shared.Infrastructure.Persistence.Entities;
@@ -24,13 +25,14 @@ public class ChatOrchestrationService
     private readonly IChatHistoryRepository _repository;
 
     private readonly IModelRouter _router;
+    private readonly IRagServiceClient _ragServiceClient;
 
     public ChatOrchestrationService(
         Kernel kernel,
         IOptions<OllamaOptions> ollamaOptions,
         IConversationMemoryService memoryService,
         IChatHistoryRepository repository,
-        IModelRouter router)
+        IModelRouter router, IRagServiceClient ragServiceClient)
     {
         _kernel = kernel;
 
@@ -41,6 +43,7 @@ public class ChatOrchestrationService
         _repository = repository;
 
         _router = router;
+        _ragServiceClient = ragServiceClient;
     }
 
     public async Task<ChatResponse> ProcessChatAsync(
@@ -91,21 +94,39 @@ public class ChatOrchestrationService
         var conversationHistory =
             string.Join("\n", history);
 
+            var ragChunks =
+                await _ragServiceClient
+                    .SearchAsync(request.Prompt);
+
+            var ragContext =
+                string.Join(
+                    "\n\n",
+                    ragChunks);
+
         // =========================
         // PROMPT BUILDING
         // =========================
 
         var finalPrompt =
-            $"""
-             System:
-             {request.SystemPrompt}
+                $"""
+                System:
+                {request.SystemPrompt}
 
-             Conversation History:
-             {conversationHistory}
+                Enterprise Knowledge Context:
+                {ragContext}
 
-             User:
-             {request.Prompt}
-             """;
+                Previous Conversation:
+                {conversationHistory}
+
+                User:
+                {request.Prompt}
+
+                Instructions:
+                - Use enterprise knowledge context whenever relevant
+                - Prefer grounded answers over assumptions
+                - If knowledge is insufficient, answer honestly
+                - Do not hallucinate enterprise data
+                """;
 
         Log.Information(
             "AI Request Started | ConversationId: {ConversationId} | RoutedModel: {Model}",
@@ -269,14 +290,26 @@ public class ChatOrchestrationService
             "Streaming Started | RoutedModel: {Model}",
             routedModel.Name);
 
-        var finalPrompt =
-            $"""
-             System:
-             {request.SystemPrompt}
+            var ragChunks =
+                await _ragServiceClient
+                    .SearchAsync(request.Prompt);
 
-             User:
-             {request.Prompt}
-             """;
+            var ragContext =
+                string.Join(
+                    "\n\n",
+                    ragChunks);
+
+            var finalPrompt =
+                $"""
+                System:
+                {request.SystemPrompt}
+
+                Enterprise Knowledge Context:
+                {ragContext}
+
+                User:
+                {request.Prompt}
+                """;
 
         await foreach (
             var chunk in _kernel.InvokePromptStreamingAsync(

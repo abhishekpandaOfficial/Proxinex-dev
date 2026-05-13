@@ -16,6 +16,7 @@ using Proxinex.Shared.Infrastructure.Persistence.Repositories.Interfaces;
 using Proxinex.Shared.SemanticKernel.Configuration;
 using Proxinex.Shared.SemanticKernel.Routing.Interfaces;
 using Proxinex.Shared.SemanticKernel.Routing;
+using Proxinex.ChatService.Infrastructure.Rag;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -78,24 +79,30 @@ builder.Services.AddOpenTelemetry().ConfigureResource(resource =>
     builder.Services.AddSingleton<IConnectionMultiplexer>(
         ConnectionMultiplexer.Connect("localhost:6379"));
 
+    builder.Services.AddHttpClient();
+
+    builder.Services.AddScoped<
+            IRagServiceClient,
+            RagServiceClient>();
+            
     builder.Services.AddScoped<
         IConversationMemoryService,
         ConversationMemoryService>();
 
-        builder.Services.AddScoped<
+    builder.Services.AddScoped<
             IChatOrchestrationService,
             ChatOrchestrationService>();
 
-        builder.Services.AddScoped<
+    builder.Services.AddScoped<
             IChatHistoryRepository,
             ChatHistoryRepository>();
 
-builder.Services.AddDbContext<ProxinexDbContext>(
-    options =>
-    {
-        options.UseNpgsql(
-            "Host=localhost;Port=5432;Database=proxinex;Username=proxinex;Password=proxinex");
-    });
+    builder.Services.AddDbContext<ProxinexDbContext>(
+            options =>
+            {
+                options.UseNpgsql(
+                    "Host=localhost;Port=5432;Database=proxinex;Username=proxinex;Password=proxinex");
+            });
 
 // Build app
 var app = builder.Build();
