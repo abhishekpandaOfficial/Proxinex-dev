@@ -1,0 +1,6 @@
+@Proxinex.SpeechService_HostAddress = http://localhost:5229
+
+GET {{Proxinex.SpeechService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

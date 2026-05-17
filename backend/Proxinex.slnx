@@ -10,4 +10,5 @@
   <Project Path="Proxinex.LlmOpsService/Proxinex.LlmOpsService.csproj" />
   <Project Path="Proxinex.MemoryService/Proxinex.MemoryService.csproj" />
   <Project Path="Proxinex.RagService/Proxinex.RagService.csproj" />
+  <Project Path="Proxinex.SpeechService/Proxinex.SpeechService.csproj" />
 </Solution>
