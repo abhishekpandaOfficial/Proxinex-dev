@@ -2,6 +2,11 @@
 bin/
 obj/
 
+# IDE cache
+*.lscache
+.idea/
+.vs/
+
 # User-specific
 *.user
 *.suo
